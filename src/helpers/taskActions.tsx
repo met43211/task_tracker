@@ -19,7 +19,7 @@ export const handleStartTask = (
     dispatch(setIsTimer(true));
     dispatch(setStartTimeById(id));
   } else {
-    dispatch(setMessage("Задачи длительностью менее 10 секунд не сохраняюся"));
+    dispatch(setMessage("Сначала завершите текущую задачу"));
     dispatch(setMessageModal(true));
   }
 };
