@@ -1,0 +1,39 @@
+.form{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform:translate(-50%, -50%);
+    width: 280px;
+    input{
+        margin-bottom: 20px;
+    }
+    .password{
+        position: relative;
+        margin-top: 20px;
+        display: flex;
+        align-items: center;
+        input{
+            padding-right: 40px;
+        }
+        .show-icon{
+            cursor: pointer;
+            right: 15px;
+            width:16px;
+            height: 16px;
+            position: absolute;
+            top: 13px
+        }
+        .show{
+            background-image: url(../../assets/show.svg);
+        }
+        .hide{
+            background-image: url(../../assets/hide.svg);
+        }
+        .show:hover{
+            background-image: url(../../assets/showHover.svg);
+        }
+        .hide:hover{
+            background-image: url(../../assets/hideHover.svg);
+        }
+    }
+}

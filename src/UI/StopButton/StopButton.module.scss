@@ -1,0 +1,15 @@
+.stop-button{
+    position: absolute;
+    background-color: rgba(0, 0,0,0);
+    border: none;
+    width: 22px;
+    height: 22px;
+    background-image: url(../../assets/stop.svg);
+    background-repeat: no-repeat;
+    background-position: center;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+.stop-button:hover{
+    background-image: url(../../assets/stopHover.svg);
+}

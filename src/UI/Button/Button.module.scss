@@ -1,0 +1,34 @@
+$btn-color: #7A7A7A;
+
+.btn{
+    width: 100%;
+    border: 1px solid $btn-color;
+    font-size: 14px;
+    color: $btn-color;
+    background-color: rgba(0,0,0,0);
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 10px;
+}
+.btn:hover{
+    color:white;
+    border-color: white;
+    img{
+        color: white;
+        fill: white;
+    }
+}
+.btn-fill{
+    color:black;
+    background-color: white;
+    border: none;
+}
+.btn-fill:hover{
+    color:black;
+    background-color: rgba(255, 255, 255, 0.8);
+}

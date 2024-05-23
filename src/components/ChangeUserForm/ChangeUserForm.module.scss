@@ -1,0 +1,66 @@
+.change{
+    width: 100%;
+    max-width: 500px;
+    h3{
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 14px;
+        margin-block: 0;
+        margin-bottom: 30px;
+    }
+    .password{
+        position: relative;
+        margin-top: 20px;
+        display: flex;
+        align-items: center;
+        input{
+            padding-right: 40px;
+        }
+        .show-icon{
+            cursor: pointer;
+            right: 15px;
+            width:16px;
+            height: 16px;
+            position: absolute;
+        }
+        .show{
+            background-image: url(../../assets/show.svg);
+        }
+        .hide{
+            background-image: url(../../assets/hide.svg);
+        }
+        .show:hover{
+            background-image: url(../../assets/showHover.svg);
+        }
+        .hide:hover{
+            background-image: url(../../assets/hideHover.svg);
+        }
+    }
+    .btns{
+        min-width: 280px;
+        display: flex;
+        justify-content: space-between;
+        margin-top: 22px;
+        button{
+            max-width: 130px;
+            .log-out{
+                width: 16px;
+                height: 16px;
+                margin-right: 11px;
+                background-image: url(../../assets/logOut.svg);
+                transition: all 0.3s ease;
+            }
+            .save-button{
+                    width: 16px;
+                    height: 16px;
+                    margin-right: 11px;
+                    background-image: url(../../assets/save.svg);
+            }
+        }
+        button:hover{
+            .log-out{
+                background-image: url(../../assets/logOutHover.svg);
+            }
+        }
+    }
+}

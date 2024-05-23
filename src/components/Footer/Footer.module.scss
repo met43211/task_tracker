@@ -1,0 +1,52 @@
+.footer{
+    width: 100%;
+    display: flex;
+    .btn{
+        cursor: pointer;
+        margin-right: 24px;
+        color: rgba(122, 122, 122, 1);
+        background-color: rgba(0, 0, 0, 0);
+        border: none;
+        transition: all 0.3s ease;
+        font-size: 14px;
+        display: flex;
+        align-items: center;
+        .icon{
+            margin-right: 8px;
+            width: 16px;
+            height: 16px;
+            background-position: center;
+            background-repeat: no-repeat;
+            transition: all 0.3s ease;
+        }
+        .show-more{
+            background-image: url(../../assets/download.svg);
+        }
+        .only-today{
+            background-image: url(../../assets/calendar.svg);
+        }
+        .user{
+            background-image: url(../../assets/user.svg);
+        }
+    }
+    .btn:hover{
+        color: white;
+        .show-more{
+            background-image: url(../../assets/downloadHover.svg);
+        }
+        .only-today{
+            background-image: url(../../assets/calendarHover.svg);
+        }
+        .user{
+            background-image: url(../../assets/userHover.svg);
+        }
+    }
+}
+@media(max-width: 768px){
+    .footer{
+        flex-direction: column;
+        .btn{
+            margin-bottom: 20px;
+        }
+    }
+}

@@ -1,0 +1,111 @@
+.tasks{
+    width: 100%;
+    .task{
+        position: relative;
+        width: 100%;
+        display: flex;
+        box-sizing: border-box;
+        padding: 20px 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        div{
+            font-size: 16px;
+        }
+        .body{
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            width: 100%;
+            max-width: calc(100% - 100px - 70px);
+            padding-right: 10px;
+            box-sizing: border-box;
+        }
+        .duration{
+            min-width: 100px;
+        }
+        .timer{
+            min-width: 70px;
+            text-align: end;
+            color: rgba(84, 124, 251, 1);
+        }
+        .stop-timer{
+            display: none;
+        }
+        .start-timer{
+            display: none;
+        }
+    }
+    .completed{
+        .body{
+            color: rgba(122, 122, 122, 1);
+            text-decoration: line-through;
+        }
+    }
+    .current{
+        cursor: grab;
+        .drag{
+            width: 20px;
+            height: 20px;
+            background-image: url(../../assets/drag.svg);
+            background-repeat: no-repeat;
+            background-position: center;
+            display: none;
+        }
+    }
+    .current:hover{
+        .timer{
+            display: none;
+        }
+        .start-timer{
+            display: flex;
+            button{
+                position: absolute;
+                right: 0;
+            }
+        }
+        .stop-timer{
+            min-width: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: end;
+        }
+    }
+}
+@media(max-width:768px){
+    .tasks{
+        .task{
+            flex-direction: column;
+            .body{
+                max-width: 100%;
+            }
+            .duration{
+                margin-top: 11px;
+            }
+            .timer{
+                margin-top: -19px;
+            }
+        }
+        .current{
+            .body{
+                padding-right: 30px;
+            }
+            .start-timer{
+                margin-top: -2px;
+                right: 30px;
+                position: absolute;
+                justify-content: end;
+                display: flex;
+            }
+            .stop-timer{
+                top: 18px;
+                right:0;
+                position: absolute;
+                justify-content: end;
+                display: flex;
+            }
+            .drag{
+                position: absolute;
+                right: 0;
+                display: block;
+            }
+        }
+    }
+}

@@ -1,0 +1,50 @@
+.field{
+    position: relative;
+    width: 100%;
+    .input{
+        width: 100%;
+        font-size: 14px;
+        color: white;
+        background-color: rgba(217, 217, 217, 0.15);
+        border-radius: 8px;
+        border: none;
+        padding: 12px 15px;
+        box-sizing: border-box;
+        transition: all 0.3s ease;
+        outline: 1px solid rgba(255, 255, 255, 0);
+    }
+    .input:hover{
+        outline: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    .input:focus{
+        outline: 1px solid #547CFB;
+    }
+    .input[type="date"] {
+        cursor: pointer;
+        opacity: 0;
+        padding: 5px 0px 5px 20px;
+        max-width: 100px;
+        background-color: rgba(0,0,0,0);
+        outline: none !important;
+    }
+    .date-icon{
+        cursor: pointer;
+        z-index: 10;
+        background-image: url(../../assets/calendarIcon.svg);
+        width: 13px;
+        height: 13px;
+        background-size: contain;
+        position: absolute;
+        background-repeat: no-repeat;
+        background-position: center;
+        left: 0;
+        top:6px
+    }
+    .date{
+        font-size: 14px;
+        cursor: pointer;
+        position: absolute;
+        left: 20px;
+        top:6px
+    }
+}

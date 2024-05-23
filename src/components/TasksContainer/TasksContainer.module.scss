@@ -1,0 +1,24 @@
+.tasks-container{
+    width: 100%;
+    margin-bottom: 20px;
+    .tasks-header{
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        .header-title{
+            display: flex;
+            align-items: center;
+        }
+        h1{
+            font-size: 20px;
+            font-weight: 500;
+            margin-right: 12px;
+        }
+        h2{
+            color: rgba(84, 124, 251, 1);
+            font-size: 20px;
+            font-weight: 500;
+        }
+    }
+}
