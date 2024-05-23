@@ -5,9 +5,8 @@ import { formatDate } from "../../helpers/formatDate";
 import { ITask } from "../../models/ITask";
 import { formatTime } from "../../helpers/formatTime";
 import CreateButton from "../../UI/CreateButton/CreateButton";
-import { useAppDispatch } from "../../hooks/redux";
-import { setModal, setModalComponent } from "../../store/slices/tasksSlice";
 import CreateForm from "../CreateForm/CreateForm";
+import Modal from "../../UI/Modal/Modal";
 
 interface TasksContainerI {
   children: React.ReactNode;
@@ -22,11 +21,10 @@ function TasksContainer({
 }: TasksContainerI) {
   const [titleDate, setTitleDate] = useState<null | string>(null);
   const [headerTime, setsetHeader] = useState<null | string>(null);
-  const dispatch = useAppDispatch();
+  const [modal, setModal] = useState(false);
 
   const handleCreate = () => {
-    dispatch(setModalComponent(<CreateForm />));
-    dispatch(setModal(true));
+    setModal(true);
   };
 
   useEffect(() => {
@@ -53,18 +51,25 @@ function TasksContainer({
     }
   }, [tasks]);
   return (
-    <div className={styles["tasks-container"]}>
-      {titleDate && (
-        <div className={styles["tasks-header"]}>
-          <div className={styles["header-title"]}>
-            <h1>{titleDate}</h1>
-            {titleDate === "Сегодня" && <CreateButton onClick={handleCreate} />}
+    <>
+      <div className={styles["tasks-container"]}>
+        {titleDate && (
+          <div className={styles["tasks-header"]}>
+            <div className={styles["header-title"]}>
+              <h1>{titleDate}</h1>
+              {titleDate === "Сегодня" && (
+                <CreateButton onClick={handleCreate} />
+              )}
+            </div>
+            <h2>{headerTime}</h2>
           </div>
-          <h2>{headerTime}</h2>
-        </div>
-      )}
-      {children}
-    </div>
+        )}
+        {children}
+      </div>
+      <Modal close={() => setModal(false)} modal={modal}>
+        <CreateForm close={() => setModal(false)} />
+      </Modal>
+    </>
   );
 }
 

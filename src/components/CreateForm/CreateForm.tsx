@@ -5,9 +5,9 @@ import Button from "../../UI/Button/Button";
 import { parseTimeToMilliseconds } from "../../helpers/formatTime";
 import { isValidTimeFormat } from "../../helpers/isValid";
 import { useAppDispatch } from "../../hooks/redux";
-import { addTodayTask, setModal } from "../../store/slices/tasksSlice";
+import { addTodayTask } from "../../store/slices/tasksSlice";
 
-function CreateForm() {
+function CreateForm({ close }: { close: () => void }) {
   const [newData, setNewData] = useState({
     body: "",
     startTime: "",
@@ -32,7 +32,7 @@ function CreateForm() {
         id: new Date().getTime(),
       };
       dispatch(addTodayTask(newTask));
-      dispatch(setModal(false));
+      close();
     } else {
       alert("Некорректные данные");
     }
@@ -47,6 +47,7 @@ function CreateForm() {
           onChange={(e) =>
             setNewData((prev) => ({ ...prev, body: e.target.value }))
           }
+          placeholder="Текст задачи"
         />
       </div>
       <div className={styles["time-inputs"]}>
@@ -58,6 +59,7 @@ function CreateForm() {
               startTime: e.target.value,
             }))
           }
+          placeholder="чч:мм"
         />
         <div className={styles["line"]}>-</div>
         <Input
@@ -68,6 +70,7 @@ function CreateForm() {
               endTime: e.target.value,
             }))
           }
+          placeholder="чч:мм"
         />
       </div>
       <div className={styles["date"]}>

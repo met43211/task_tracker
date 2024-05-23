@@ -5,10 +5,9 @@ interface ModalI {
   children: React.ReactNode | null;
   modal: boolean;
   close: () => void;
-  isMassage?: boolean;
 }
 
-function Modal({ children, close, modal, isMassage = false }: ModalI) {
+function Modal({ children, close, modal }: ModalI) {
   useEffect(() => {
     if (modal) {
       document.body.style.overflow = "hidden";
@@ -28,9 +27,7 @@ function Modal({ children, close, modal, isMassage = false }: ModalI) {
   return (
     <>
       <div className={styles["modal-cover"]} onClick={close}></div>
-      <div
-        className={`${styles["modal"]} ${isMassage && styles["modal-message"]}`}
-      >
+      <div className={styles["modal"]}>
         <div onClick={close} className={styles["close"]} />
         {children}
       </div>

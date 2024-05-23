@@ -9,9 +9,10 @@ import TasksContainer from "../components/TasksContainer/TasksContainer";
 import Footer from "../components/Footer/Footer";
 import TasksList from "../components/Tasks/TasksList";
 import Modal from "../UI/Modal/Modal";
-import { setModal } from "../store/slices/tasksSlice";
 import { useDispatch } from "react-redux";
 import { checkIsTasksStillToday } from "../helpers/isTasksStillToday";
+import ModalMessage from "../components/ModalMessage/ModalMessage";
+import { setMessageModal } from "../store/slices/tasksSlice";
 
 function MainPage() {
   const {
@@ -19,8 +20,8 @@ function MainPage() {
     showMore,
     todayTasks,
     currentTasks,
-    modalComponent,
-    modal,
+    messageModal,
+    message,
   } = useAppSelector((state) => state.tasksReducer);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -49,12 +50,8 @@ function MainPage() {
         </Section>
         {showMore &&
           passedTasks.slice(0, 3).map((day) => (
-            <Section>
-              <TasksContainer
-                tasks={day.tasks}
-                date={new Date(day.date)}
-                key={day.date}
-              >
+            <Section key={day.date}>
+              <TasksContainer tasks={day.tasks} date={new Date(day.date)}>
                 <TasksList tasks={day.tasks} />
               </TasksContainer>
             </Section>
@@ -64,11 +61,10 @@ function MainPage() {
         </Section>
       </Wrapper>
       <Modal
-        close={() => dispatch(setModal(false))}
-        modal={modal}
-        isMassage={true}
+        close={() => dispatch(setMessageModal(false))}
+        modal={messageModal}
       >
-        {modalComponent}
+        <ModalMessage>{message}</ModalMessage>
       </Modal>
     </>
   );

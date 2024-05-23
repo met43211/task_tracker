@@ -1,11 +1,10 @@
 import { Action, Dispatch } from "@reduxjs/toolkit";
-import ModalMessage from "../components/ModalMessage/ModalMessage";
 import {
   addTodayTask,
   filterCurrentById,
   setIsTimer,
-  setModal,
-  setModalComponent,
+  setMessage,
+  setMessageModal,
   setStartTimeById,
 } from "../store/slices/tasksSlice";
 import { saveToLocalStorage } from "./localStorageHelpers";
@@ -20,12 +19,8 @@ export const handleStartTask = (
     dispatch(setIsTimer(true));
     dispatch(setStartTimeById(id));
   } else {
-    dispatch(
-      setModalComponent(
-        <ModalMessage>Сначала завершите текущую задачу</ModalMessage>
-      )
-    );
-    dispatch(setModal(true));
+    dispatch(setMessage("Задачи длительностью менее 10 секунд не сохраняюся"));
+    dispatch(setMessageModal(true));
   }
 };
 export const handleStopTask = (
@@ -49,14 +44,8 @@ export const handleStopTask = (
       })
     );
   } else {
-    dispatch(
-      setModalComponent(
-        <ModalMessage>
-          Задачи длительностью менее 10 секунд не сохраняюся
-        </ModalMessage>
-      )
-    );
-    dispatch(setModal(true));
+    dispatch(setMessage("Задачи длительностью менее 10 секунд не сохраняюся"));
+    dispatch(setMessageModal(true));
   }
   setTimer(0);
   saveToLocalStorage("timer", 0);

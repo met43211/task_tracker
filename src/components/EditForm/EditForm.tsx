@@ -7,6 +7,7 @@ import Button from "../../UI/Button/Button";
 import { useAppDispatch } from "../../hooks/redux";
 import { isDateValid } from "../../helpers/isValid";
 import { deleteTask, editTask } from "../../helpers/editModalActions";
+import { setEditModal } from "../../store/slices/tasksSlice";
 
 function EditForm({ ...task }: ITask) {
   const [newData, setNewData] = useState({
@@ -18,6 +19,7 @@ function EditForm({ ...task }: ITask) {
 
   const handleDelete = () => {
     deleteTask(dispatch, task);
+    dispatch(setEditModal(false));
   };
 
   const handelEdit: FormEventHandler<HTMLFormElement> = (e) => {
@@ -30,6 +32,7 @@ function EditForm({ ...task }: ITask) {
       <h3>Редактирование задачи</h3>
       <div className={styles["body"]}>
         <Input
+          placeholder="Текст задачи"
           value={newData.body}
           type="text"
           onChange={(e) =>
@@ -41,6 +44,7 @@ function EditForm({ ...task }: ITask) {
         <div className={styles["time-inputs"]}>
           <div className={styles["inputs"]}>
             <Input
+              placeholder="чч:мм"
               value={newData.startTime}
               onChange={(e) =>
                 setNewData((prev) => ({
@@ -51,6 +55,7 @@ function EditForm({ ...task }: ITask) {
             />
             <div className={styles["line"]}>-</div>
             <Input
+              placeholder="чч:мм"
               value={newData.endTime}
               onChange={(e) =>
                 setNewData((prev) => ({

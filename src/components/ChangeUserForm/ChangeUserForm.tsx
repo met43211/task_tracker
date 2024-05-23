@@ -6,7 +6,6 @@ import Button from "../../UI/Button/Button";
 import { useAppDispatch } from "../../hooks/redux";
 import { saveToLocalStorage } from "../../helpers/localStorageHelpers";
 import { setUser } from "../../store/slices/authSlice";
-import { setModal } from "../../store/slices/tasksSlice";
 import { useNavigate } from "react-router-dom";
 
 function ChangeUserForm({ ...user }: IUser) {
@@ -22,12 +21,12 @@ function ChangeUserForm({ ...user }: IUser) {
     } else {
       alert("Некорректные данные");
     }
-    dispatch(setModal(false));
+    //dispatch(setModal(false));
   };
   const handleLogOut = () => {
     saveToLocalStorage("isAuth", false);
     navigate("/task_tracker/auth");
-    dispatch(setModal(false));
+    //dispatch(setModal(false));
   };
   return (
     <form action="submit" onSubmit={handleChange} className={styles["change"]}>

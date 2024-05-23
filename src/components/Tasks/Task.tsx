@@ -14,9 +14,9 @@ import StopButton from "../../UI/StopButton/StopButton";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
 import {
   changeCurrentOrder,
+  setEditModal,
   setIsTimer,
-  setModal,
-  setModalComponent,
+  setPickedTask,
 } from "../../store/slices/tasksSlice";
 import PlayButton from "../../UI/PlayButton/PlayButton";
 import { startTimer, stopTimer } from "../../helpers/timer";
@@ -25,7 +25,6 @@ import {
   saveToLocalStorage,
 } from "../../helpers/localStorageHelpers";
 import { handleStartTask, handleStopTask } from "../../helpers/taskActions";
-import EditForm from "../EditForm/EditForm";
 
 interface TaskI extends ITask {
   order: number;
@@ -46,7 +45,6 @@ function Task({
   const [duration, setDuration] = useState("");
   const [timer, setTimer] = useState(0);
   const [timerText, setTimerText] = useState("");
-
   const holdTimeout = useRef<number | null>(null);
   const isHoldingRef = useRef(false);
 
@@ -59,6 +57,7 @@ function Task({
     handleStartTask(dispatch, id, isTimer);
     e.stopPropagation();
   };
+
   const handleStop: MouseEventHandler<HTMLButtonElement> = (e) => {
     e.stopPropagation();
     if (startTime) {
@@ -81,7 +80,7 @@ function Task({
       if (isHoldingRef.current) {
         handleEdit(true);
       }
-    }, 1000);
+    }, 800);
   };
 
   const handleTouchEnd = () => {
@@ -94,8 +93,8 @@ function Task({
 
   const handleEdit = (isLong?: boolean) => {
     if (window.innerWidth > 768 || isLong) {
-      dispatch(setModalComponent(<EditForm {...task} />));
-      dispatch(setModal(true));
+      dispatch(setPickedTask(task));
+      dispatch(setEditModal(true));
     }
   };
 

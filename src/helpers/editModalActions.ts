@@ -8,8 +8,8 @@ import {
   filterCurrentById,
   filterPassedByDateAndId,
   filterTodayById,
+  setEditModal,
   setIsTimer,
-  setModal,
 } from "../store/slices/tasksSlice";
 import { saveToLocalStorage } from "./localStorageHelpers";
 import { parseTimeToMilliseconds } from "./formatTime";
@@ -30,7 +30,6 @@ export const deleteTask = (dispatch: Dispatch<Action>, task: ITask) => {
   } else {
     dispatch(filterPassedByDateAndId({ date: task.date, id: task.id }));
   }
-  dispatch(setModal(false));
 };
 
 interface newDataI {
@@ -49,7 +48,7 @@ export const editTask = (
   if (!task.endTime) {
     if (newData.body.length > 0) {
       dispatch(editCurrentById({ ...task, body: newData.body }));
-      dispatch(setModal(false));
+      dispatch(setEditModal(false));
     } else {
       alert("Некорректные данные");
     }
@@ -81,7 +80,7 @@ export const editTask = (
         dispatch(filterTodayById(newTask.id));
         dispatch(addPassedByDateAndId(newTask));
       }
-      dispatch(setModal(false));
+      dispatch(setEditModal(false));
     } else {
       alert("Некорректные данные");
     }

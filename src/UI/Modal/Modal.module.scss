@@ -11,8 +11,8 @@
     position: fixed;
     z-index: 200;
     left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
+    top: 50px;
+    transform: translate(-50%, 0);
     padding: 30px;
     background-color: #161616;
     border-radius: 8px;
@@ -32,8 +32,4 @@
     .close:hover{
         background-image: url(../../assets/closeHover.svg);
     }
-}
-.modal-message{
-    top: 50px;
-    transform: translate(-50%, 0);
 }

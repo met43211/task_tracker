@@ -78,8 +78,10 @@ interface TasksState {
   passedTasks: IPassedTask[];
   showMore: boolean;
   isTimer: boolean;
-  modalComponent: React.ReactNode | null;
-  modal: boolean;
+  messageModal: boolean;
+  editModal: boolean;
+  pickedTask: ITask | null;
+  message: string;
 }
 
 const initialState: TasksState = {
@@ -88,14 +90,28 @@ const initialState: TasksState = {
   passedTasks: getFromLocalStorage("passedTasks") || passedTasks,
   showMore: false,
   isTimer: Boolean(getFromLocalStorage("isTimer")) || false,
-  modalComponent: null,
-  modal: false,
+  messageModal: false,
+  editModal: false,
+  pickedTask: null,
+  message: "",
 };
 
 export const tasksSlice = createSlice({
   name: "tasks",
   initialState,
   reducers: {
+    setMessage(state, action) {
+      state.message = action.payload;
+    },
+    setMessageModal(state, action) {
+      state.messageModal = action.payload;
+    },
+    setEditModal(state, action) {
+      state.editModal = action.payload;
+    },
+    setPickedTask(state, action) {
+      state.pickedTask = action.payload;
+    },
     addCurrentTask(state, action) {
       state.currentTasks.unshift(action.payload);
       saveToLocalStorage("currentTasks", state.currentTasks);
@@ -130,12 +146,6 @@ export const tasksSlice = createSlice({
     setIsTimer(state, action) {
       saveToLocalStorage("isTimer", action.payload);
       state.isTimer = action.payload;
-    },
-    setModalComponent(state, action) {
-      state.modalComponent = action.payload;
-    },
-    setModal(state, action) {
-      state.modal = action.payload;
     },
     setStartTimeById(state, action) {
       state.currentTasks = setStartTime(state.currentTasks, action.payload);
@@ -199,12 +209,14 @@ export const {
   filterCurrentById,
   setIsTimer,
   setStartTimeById,
-  setModalComponent,
-  setModal,
+  setMessageModal,
   filterTodayById,
   editCurrentById,
   filterPassedByDateAndId,
   editTodayById,
   addPassedByDateAndId,
   changeCurrentOrder,
+  setMessage,
+  setEditModal,
+  setPickedTask,
 } = tasksSlice.actions;
