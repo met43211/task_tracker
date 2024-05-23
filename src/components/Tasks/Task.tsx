@@ -42,13 +42,17 @@ function Task({
   setCurrentTask,
   current,
 }: TaskI) {
-  let touchStart: number;
   const task = { body, startTime, endTime, id, date };
   const [duration, setDuration] = useState("");
   const [timer, setTimer] = useState(0);
   const [timerText, setTimerText] = useState("");
+
+  const holdTimeout = useRef<number | null>(null);
+  const isHoldingRef = useRef(false);
+
   const { isTimer } = useAppSelector((state) => state.tasksReducer);
   const dispatch = useAppDispatch();
+
   const intervalRef = useRef<number | null>(null);
 
   const handleStart: MouseEventHandler<HTMLButtonElement> = (e) => {
@@ -72,12 +76,19 @@ function Task({
   };
 
   const handleTouchStart = () => {
-    touchStart = Date.now();
+    isHoldingRef.current = true;
+    holdTimeout.current = window.setTimeout(() => {
+      if (isHoldingRef.current) {
+        handleEdit(true);
+      }
+    }, 1000);
   };
 
   const handleTouchEnd = () => {
-    if (Date.now() - touchStart > 500) {
-      handleEdit(true);
+    isHoldingRef.current = false;
+    if (holdTimeout.current) {
+      clearTimeout(holdTimeout.current);
+      holdTimeout.current = null;
     }
   };
 
