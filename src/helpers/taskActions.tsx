@@ -35,7 +35,7 @@ export const handleStopTask = (
   startTime: number,
   id: number,
   setTimer: (n: number) => void,
-  intervalRefCurrent: number | null,
+  intervalRef: React.MutableRefObject<number | null>,
   date: string
 ) => {
   if (timer > 10000) {
@@ -60,7 +60,7 @@ export const handleStopTask = (
   }
   setTimer(0);
   saveToLocalStorage("timer", 0);
-  stopTimer(intervalRefCurrent);
+  stopTimer(intervalRef);
   dispatch(setIsTimer(false));
   dispatch(filterCurrentById(id));
 };

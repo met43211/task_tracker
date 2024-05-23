@@ -65,7 +65,7 @@ function Task({
         startTime,
         id,
         setTimer,
-        intervalRef.current,
+        intervalRef,
         date
       );
     }
