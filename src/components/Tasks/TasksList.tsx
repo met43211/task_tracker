@@ -21,11 +21,10 @@ function TasksList({ tasks }: TasksI) {
   return (
     <>
       <div className={styles["tasks"]}>
-        {tasks.map((task, index) => (
+        {tasks.map((task) => (
           <Task
             {...task}
             key={task.id}
-            order={index + 1}
             current={currentTask}
             setCurrentTask={setCurrentTask}
           />

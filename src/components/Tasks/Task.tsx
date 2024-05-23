@@ -1,6 +1,7 @@
 import {
   DragEventHandler,
   MouseEventHandler,
+  TouchEventHandler,
   useEffect,
   useRef,
   useState,
@@ -15,8 +16,10 @@ import { useAppDispatch, useAppSelector } from "../../hooks/redux";
 import {
   changeCurrentOrder,
   setEditModal,
+  setIsDragging,
   setIsTimer,
   setPickedTask,
+  setPotentialId,
 } from "../../store/slices/tasksSlice";
 import PlayButton from "../../UI/PlayButton/PlayButton";
 import { startTimer, stopTimer } from "../../helpers/timer";
@@ -25,9 +28,9 @@ import {
   saveToLocalStorage,
 } from "../../helpers/localStorageHelpers";
 import { handleStartTask, handleStopTask } from "../../helpers/taskActions";
+import { touchEndDrag, touchMoveDrag } from "../../helpers/mobileDragActions";
 
 interface TaskI extends ITask {
-  order: number;
   current: React.SetStateAction<ITask | null>;
   setCurrentTask: React.Dispatch<React.SetStateAction<null | ITask>>;
 }
@@ -38,19 +41,21 @@ function Task({
   endTime,
   id,
   date,
-  setCurrentTask,
   current,
+  setCurrentTask,
 }: TaskI) {
   const task = { body, startTime, endTime, id, date };
   const [duration, setDuration] = useState("");
   const [timer, setTimer] = useState(0);
   const [timerText, setTimerText] = useState("");
   const holdTimeout = useRef<number | null>(null);
-  const isHoldingRef = useRef(false);
+  const touchStartRef = useRef<number | null>(null);
+  const touchTaskRef = useRef<ITask | null>(null);
 
-  const { isTimer } = useAppSelector((state) => state.tasksReducer);
+  const { isTimer, potentialId, isDragging } = useAppSelector(
+    (state) => state.tasksReducer
+  );
   const dispatch = useAppDispatch();
-
   const intervalRef = useRef<number | null>(null);
 
   const handleStart: MouseEventHandler<HTMLButtonElement> = (e) => {
@@ -74,20 +79,52 @@ function Task({
     }
   };
 
-  const handleTouchStart = () => {
-    isHoldingRef.current = true;
+  const handleTouchStart: TouchEventHandler<HTMLDivElement> = () => {
     holdTimeout.current = window.setTimeout(() => {
-      if (isHoldingRef.current) {
-        handleEdit(true);
-      }
+      handleEdit(true);
     }, 800);
   };
 
   const handleTouchEnd = () => {
-    isHoldingRef.current = false;
     if (holdTimeout.current) {
       clearTimeout(holdTimeout.current);
       holdTimeout.current = null;
+    }
+  };
+
+  const handleTouchStartDrag: TouchEventHandler<HTMLDivElement> = () => {
+    touchStartRef.current = Date.now();
+    touchTaskRef.current = task;
+    dispatch(setIsDragging(true));
+  };
+
+  const handleTouchMoveDrag: TouchEventHandler<HTMLDivElement> = (e) => {
+    if (holdTimeout.current) {
+      clearTimeout(holdTimeout.current);
+      holdTimeout.current = null;
+    }
+    const touch = e.changedTouches[0];
+    touchMoveDrag(touch, potentialId, dispatch);
+  };
+
+  const handleTouchEndDrag: TouchEventHandler<HTMLDivElement> = (e) => {
+    const touch = e.changedTouches[0];
+    touchEndDrag(
+      dispatch,
+      task,
+      touch,
+      isDragging,
+      touchStartRef,
+      touchTaskRef
+    );
+  };
+
+  const handleTouchCancelDrag = () => {
+    dispatch(setPotentialId(null));
+    touchStartRef.current = null;
+    touchTaskRef.current = null;
+    if (!isDragging) {
+      dispatch(setIsDragging(true));
     }
   };
 
@@ -105,7 +142,6 @@ function Task({
     e.preventDefault();
   };
   const dropHandler: DragEventHandler<HTMLDivElement> = (e) => {
-    console.log(task);
     e.preventDefault();
     dispatch(changeCurrentOrder({ current, over: task }));
   };
@@ -135,18 +171,30 @@ function Task({
     }
   }, [timer]);
 
+  useEffect(() => {
+    if (potentialId) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [potentialId]);
+
   return (
     <div
       className={`${styles["task"]} ${
         startTime && endTime ? styles["completed"] : styles["current"]
-      }`}
+      } ${potentialId === task.id && !endTime && styles["potential"]}`}
       onDragStart={dragStartHandler}
       onDragOver={dragOverHandler}
       onDrop={dropHandler}
       draggable={!endTime && true}
-      onClick={() => handleEdit()}
+      onClick={() => !isDragging && handleEdit()}
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
+      data-task-id={id}
     >
       <div className={styles["body"]}>{body}</div>
       {timerText ? (
@@ -164,7 +212,15 @@ function Task({
           </div>
         </>
       )}
-      {!endTime && !startTime && <div className={styles["drag"]}></div>}
+      {!endTime && !startTime && (
+        <div
+          className={styles["drag"]}
+          onTouchStart={handleTouchStartDrag}
+          onTouchMove={handleTouchMoveDrag}
+          onTouchEnd={handleTouchEndDrag}
+          onTouchCancel={handleTouchCancelDrag}
+        ></div>
+      )}
     </div>
   );
 }

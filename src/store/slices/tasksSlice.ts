@@ -82,6 +82,8 @@ interface TasksState {
   editModal: boolean;
   pickedTask: ITask | null;
   message: string;
+  potentialId: number | null;
+  isDragging: boolean;
 }
 
 const initialState: TasksState = {
@@ -94,12 +96,20 @@ const initialState: TasksState = {
   editModal: false,
   pickedTask: null,
   message: "",
+  potentialId: null,
+  isDragging: false,
 };
 
 export const tasksSlice = createSlice({
   name: "tasks",
   initialState,
   reducers: {
+    setPotentialId(state, action) {
+      state.potentialId = action.payload;
+    },
+    setIsDragging(state, action) {
+      state.isDragging = action.payload;
+    },
     setMessage(state, action) {
       state.message = action.payload;
     },
@@ -204,6 +214,8 @@ export const tasksSlice = createSlice({
 export const tasksReducer = tasksSlice.reducer;
 export const {
   addCurrentTask,
+  setIsDragging,
+  setPotentialId,
   setShowMore,
   addTodayTask,
   filterCurrentById,
