@@ -27,9 +27,19 @@
             color: rgba(84, 124, 251, 1);
         }
         .stop-timer{
+            width: 24px;
+            height: 24px;
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
             display: none;
         }
         .start-timer{
+            width: 24px;
+            height: 24px;
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
             display: none;
         }
     }
@@ -55,6 +65,9 @@
             display: none;
         }
         .start-timer{
+            position: absolute;
+            top: 19px;
+            right: 0px;
             display: flex;
             button{
                 position: absolute;
@@ -63,7 +76,7 @@
         }
         .stop-timer{
             position: absolute;
-            top: 29px;
+            top: 17px;
             right: 0;
             display: flex;
             align-items: center;
@@ -90,29 +103,36 @@
                 padding-right: 30px;
             }
             .start-timer{
-                margin-top: -2px;
-                right: 30px;
+                top:19px;
                 position: absolute;
-                justify-content: end;
-                display: flex;
+                display: block;
+                right: 30px;
             }
             .stop-timer{
-                top: 18px;
+                top: 17px;
                 right:0;
                 position: absolute;
-                justify-content: end;
-                display: flex;
+                display: block;
             }
             .drag{
                 position: absolute;
                 right: 0;
+                top:21px;
                 display: block;
             }
         }
         .current:hover{
-            .stop-timer{
-                top: 29px;
+            .start-timer{
+                top:19px;
                 position: absolute;
+                display: block;
+                right: 32px;
+            }
+            .stop-timer{
+                top: 17px;
+                right:0;
+                position: absolute;
+                display: block;
             }
             .timer{
                 display: block;

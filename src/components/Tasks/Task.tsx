@@ -52,8 +52,8 @@ function Task({
   const intervalRef = useRef<number | null>(null);
 
   const handleStart: MouseEventHandler<HTMLButtonElement> = (e) => {
-    e.stopPropagation();
     handleStartTask(dispatch, id, isTimer);
+    e.stopPropagation();
   };
   const handleStop: MouseEventHandler<HTMLButtonElement> = (e) => {
     e.stopPropagation();
@@ -139,7 +139,7 @@ function Task({
       onTouchEnd={handleTouchEnd}
     >
       <div className={styles["body"]}>{body}</div>
-      {startTime ? (
+      {timerText ? (
         <div className={styles["duration"]}>{duration}</div>
       ) : (
         <div className={styles["start-timer"]}>
