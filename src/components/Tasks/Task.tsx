@@ -110,10 +110,10 @@ function Task({
         setTimer(localTimer);
       }
       dispatch(setIsTimer(true));
-      startTimer(intervalRef.current, setTimer);
+      startTimer(intervalRef, setTimer);
     }
     return () => {
-      stopTimer(intervalRef.current);
+      stopTimer(intervalRef);
     };
   }, [startTime, endTime]);
 

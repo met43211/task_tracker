@@ -1,4 +1,3 @@
-import Modal from "./UI/Modal/Modal";
 import { IRoute } from "./models/IRoute";
 import AuthPage from "./pages/AuthPage";
 import MainPage from "./pages/MainPage";
