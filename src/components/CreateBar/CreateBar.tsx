@@ -65,7 +65,7 @@ function CreateBar() {
           <PlayButton onClick={handlePlayTask} type="button" />
         </div>
       </form>
-      <Modal close={() => setModal(false)} modal={modal} isMassage={true}>
+      <Modal close={() => setModal(false)} modal={modal}>
         <ModalMessage>Сначала завершите текущую задачу</ModalMessage>
       </Modal>
     </>

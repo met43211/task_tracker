@@ -16,7 +16,7 @@ function AuthPage() {
   return (
     <>
       <AuthForm openModal={openModal} />
-      <Modal close={closeModal} modal={modal} isMassage={true}>
+      <Modal close={closeModal} modal={modal}>
         <ModalMessage>Неверный логин или пароль</ModalMessage>
       </Modal>
     </>

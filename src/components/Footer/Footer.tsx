@@ -45,7 +45,7 @@ function Footer() {
           {user.login}
         </button>
       </div>
-      <Modal close={() => setModal(false)} modal={modal} isMassage={true}>
+      <Modal close={() => setModal(false)} modal={modal}>
         <ChangeUserForm {...user} />
       </Modal>
     </>

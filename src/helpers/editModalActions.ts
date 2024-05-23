@@ -56,7 +56,7 @@ export const editTask = (
     const sT = parseTimeToMilliseconds(newData.startTime);
     const eT = parseTimeToMilliseconds(newData.endTime);
     if (
-      task.body.length > 0 &&
+      newData.body.length > 0 &&
       isValidTimeFormat(newData.startTime) &&
       isValidTimeFormat(newData.endTime) &&
       sT <= eT
