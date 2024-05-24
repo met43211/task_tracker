@@ -51,14 +51,6 @@
     }
     .current{
         cursor: grab;
-        .drag{
-            width: 30px;
-            height: 50px;
-            background-image: url(../../assets/drag.svg);
-            background-repeat: no-repeat;
-            background-position: right;
-            display: none;
-        }
     }
     .current:hover{
         .timer{
@@ -112,12 +104,6 @@
                 top: 17px;
                 right:0;
                 position: absolute;
-                display: block;
-            }
-            .drag{
-                position: absolute;
-                right: 0;
-                top:5px;
                 display: block;
             }
         }
