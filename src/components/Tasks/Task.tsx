@@ -16,19 +16,13 @@ import { useAppDispatch, useAppSelector } from "../../hooks/redux";
 import {
   changeCurrentOrder,
   setEditModal,
-  setIsDragging,
   setIsTimer,
   setPickedTask,
-  setPotentialId,
 } from "../../store/slices/tasksSlice";
 import PlayButton from "../../UI/PlayButton/PlayButton";
 import { startTimer, stopTimer } from "../../helpers/timer";
-import {
-  getFromLocalStorage,
-  saveToLocalStorage,
-} from "../../helpers/localStorageHelpers";
 import { handleStartTask, handleStopTask } from "../../helpers/taskActions";
-import { touchEndDrag, touchMoveDrag } from "../../helpers/mobileDragActions";
+import MobileDrag from "../MobileDrag/MobileDrag";
 
 interface TaskI extends ITask {
   current: React.SetStateAction<ITask | null>;
@@ -49,8 +43,6 @@ function Task({
   const [timer, setTimer] = useState(0);
   const [timerText, setTimerText] = useState("");
   const holdTimeout = useRef<number | null>(null);
-  const touchStartRef = useRef<number | null>(null);
-  const touchTaskRef = useRef<ITask | null>(null);
 
   const { isTimer, potentialId, isDragging } = useAppSelector(
     (state) => state.tasksReducer
@@ -92,42 +84,6 @@ function Task({
     }
   };
 
-  const handleTouchStartDrag: TouchEventHandler<HTMLDivElement> = () => {
-    touchStartRef.current = Date.now();
-    touchTaskRef.current = task;
-    dispatch(setIsDragging(true));
-  };
-
-  const handleTouchMoveDrag: TouchEventHandler<HTMLDivElement> = (e) => {
-    if (holdTimeout.current) {
-      clearTimeout(holdTimeout.current);
-      holdTimeout.current = null;
-    }
-    const touch = e.changedTouches[0];
-    touchMoveDrag(touch, potentialId, dispatch);
-  };
-
-  const handleTouchEndDrag: TouchEventHandler<HTMLDivElement> = (e) => {
-    const touch = e.changedTouches[0];
-    touchEndDrag(
-      dispatch,
-      task,
-      touch,
-      isDragging,
-      touchStartRef,
-      touchTaskRef
-    );
-  };
-
-  const handleTouchCancelDrag = () => {
-    dispatch(setPotentialId(null));
-    touchStartRef.current = null;
-    touchTaskRef.current = null;
-    if (!isDragging) {
-      dispatch(setIsDragging(true));
-    }
-  };
-
   const handleEdit = (isLong?: boolean) => {
     if (window.innerWidth > 768 || isLong) {
       dispatch(setPickedTask(task));
@@ -151,10 +107,8 @@ function Task({
       setDuration(formatDuration(startTime, endTime));
       setTimerText(formatTime(endTime - startTime));
     } else if (startTime && !endTime) {
-      const localTimer = Number(getFromLocalStorage("timer"));
-      if (localTimer) {
-        setTimer(localTimer);
-      }
+      const localTimer = new Date().getTime() - startTime;
+      setTimer(localTimer);
       dispatch(setIsTimer(true));
       startTimer(intervalRef, setTimer);
     }
@@ -165,7 +119,6 @@ function Task({
 
   useEffect(() => {
     if (startTime && !endTime) {
-      saveToLocalStorage("timer", timer);
       setTimerText(formatTimer(timer));
       setDuration(formatDuration(startTime, new Date().getTime()));
     }
@@ -213,13 +166,7 @@ function Task({
         </>
       )}
       {!endTime && !startTime && (
-        <div
-          className={styles["drag"]}
-          onTouchStart={handleTouchStartDrag}
-          onTouchMove={handleTouchMoveDrag}
-          onTouchEnd={handleTouchEndDrag}
-          onTouchCancel={handleTouchCancelDrag}
-        ></div>
+        <MobileDrag task={task} holdTimeout={holdTimeout} />
       )}
     </div>
   );
