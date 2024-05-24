@@ -35,7 +35,9 @@ function MainPage() {
 
   useEffect(() => {
     checkIsTasksStillToday(todayTasks, currentTasks, dispatch);
-    dispatch(setPassedTasks(passedTasksConst)); //если сразу задавал значение в initialState, появлялась ошибка
+    if (!passedTasks) {
+      dispatch(setPassedTasks(passedTasksConst)); //если сразу задавал значение в initialState, появлялась ошибка
+    }
   }, []);
 
   return (
