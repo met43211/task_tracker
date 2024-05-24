@@ -12,8 +12,7 @@ import Modal from "../UI/Modal/Modal";
 import { useDispatch } from "react-redux";
 import { checkIsTasksStillToday } from "../helpers/isTasksStillToday";
 import ModalMessage from "../components/ModalMessage/ModalMessage";
-import { setMessageModal, setPassedTasks } from "../store/slices/tasksSlice";
-import { passedTasksConst } from "../const";
+import { setMessageModal } from "../store/slices/tasksSlice";
 
 function MainPage() {
   const {
@@ -35,9 +34,6 @@ function MainPage() {
 
   useEffect(() => {
     checkIsTasksStillToday(todayTasks, currentTasks, dispatch);
-    if (!passedTasks) {
-      dispatch(setPassedTasks(passedTasksConst)); //если сразу задавал значение в initialState, появлялась ошибка
-    }
   }, []);
 
   return (

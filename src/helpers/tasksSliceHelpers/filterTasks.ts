@@ -1,6 +1,6 @@
 import { IPassedTask, ITask } from "../../models/ITask";
 
-export const filterPssedTasks = (
+export const filterPassedTasks = (
   passedTasks: IPassedTask[],
   passedTask: ITask
 ) => {

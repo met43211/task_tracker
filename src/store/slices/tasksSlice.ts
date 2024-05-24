@@ -11,7 +11,7 @@ import {
 import { setStartTime } from "../../helpers/tasksSliceHelpers/setStartTime";
 import { addPassedTask } from "../../helpers/tasksSliceHelpers/addTasks";
 import { editCurrentOrTodayTask } from "../../helpers/tasksSliceHelpers/editTasks";
-import { filterPssedTasks } from "../../helpers/tasksSliceHelpers/filterTasks";
+import { filterPassedTasks } from "../../helpers/tasksSliceHelpers/filterTasks";
 import { changeOrder } from "../../helpers/tasksSliceHelpers/cnahgeOrder";
 
 interface TasksState {
@@ -70,9 +70,6 @@ export const tasksSlice = createSlice({
     setIsTimer(state, action) {
       state.isTimer = action.payload;
     },
-    setPassedTasks(state, action) {
-      state.passedTasks = action.payload;
-    },
     setStartTimeById(state, action) {
       state.currentTasks = setStartTime(state.currentTasks, action.payload);
       saveToLocalStorage("currentTasks", state.currentTasks);
@@ -83,7 +80,8 @@ export const tasksSlice = createSlice({
     },
     addPassedByDateAndId(state, action) {
       addPassedTask(state.passedTasks, action.payload);
-      sortPassedTasks(state.passedTasks);
+      saveToLocalStorage("passedTasks", state.passedTasks);
+      state.passedTasks = sortPassedTasks(getFromLocalStorage("passedTasks"));
       saveToLocalStorage("passedTasks", state.passedTasks);
     },
     addTodayTask(state, action) {
@@ -131,7 +129,7 @@ export const tasksSlice = createSlice({
       saveToLocalStorage("todayTasks", state.todayTasks);
     },
     filterPassedByDateAndId(state, action) {
-      state.passedTasks = filterPssedTasks(state.passedTasks, action.payload);
+      state.passedTasks = filterPassedTasks(state.passedTasks, action.payload);
       saveToLocalStorage("passedTasks", state.passedTasks);
     },
   },
@@ -139,7 +137,6 @@ export const tasksSlice = createSlice({
 
 export const tasksReducer = tasksSlice.reducer;
 export const {
-  setPassedTasks,
   addCurrentTask,
   setIsDragging,
   setPotentialId,
